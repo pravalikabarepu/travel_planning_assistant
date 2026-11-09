@@ -640,7 +640,7 @@ def weather_lookup_tool(city: str, start_date: str, end_date: str) -> str:
 @tool
 def budget_estimation_tool(
     flight_price_per_person: float | None,
-    hotel_price_per_night: float,
+    hotel_price_per_night: float | None,
     nights: int,
     travelers: int = 1,
     daily_local_expense: float = 1500,
@@ -651,14 +651,21 @@ def budget_estimation_tool(
     """
     Estimate trip costs.
 
-    Pass null when a flight fare is unavailable.
+    Pass 0 for hotel_price_per_night when no hotel is available.
+    Pass null for flight fares only when unavailable.
     Set flight_is_reference=true for unconfirmed or historical fares.
     For round trips, pass the return fare only when it is actually available.
     """
 
+    # Treat an unavailable hotel price as zero.
+    hotel_price = (
+        0.0 if hotel_price_per_night: float,
+        else float(hotel_price_per_night)
+    )
+
     result = compute_budget(
         flight_price_per_person,
-        hotel_price_per_night,
+        hotel_price,
         nights,
         travelers,
         daily_local_expense,
@@ -747,7 +754,9 @@ WORKFLOW (always follow it, calling tools - never invent data):
      flight_is_reference=true.
 
    For one-way requests, pass round_trip=false.
-
+When calling budget_estimation_tool, always pass a numeric value
+for hotel_price_per_night. If no hotel is available or the hotel
+price is unknown, pass 0. Never pass null for hotel_price_per_night.
 7. MISSING DATA:
    If a tool returns no results, report that honestly and continue
    with the available information.
