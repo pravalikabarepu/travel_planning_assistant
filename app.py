@@ -1158,7 +1158,7 @@ def render_plan_markdown(plan: dict) -> str:
 # ----------------------------------------------------------------------------
 PROVIDER_DEFAULTS = {
     "OpenAI": ("gpt-4o-mini", "OPENAI_API_KEY"),
-    "Groq (free tier)": ("openai/gpt-oss-120b", "GROQ_API_KEY"),
+    "Groq (free tier)": ("openai/gpt-oss-20b", "GROQ_API_KEY"),
     "Google Gemini": ("gemini-2.5-flash", "GOOGLE_API_KEY"),
 }
 
