@@ -659,9 +659,9 @@ def budget_estimation_tool(
 
     # Treat an unavailable hotel price as zero.
     hotel_price = (
-        0.0 if hotel_price_per_night: float,
-        else float(hotel_price_per_night)
-    )
+    0.0 if hotel_price_per_night is None
+    else float(hotel_price_per_night)
+)
 
     result = compute_budget(
         flight_price_per_person,
